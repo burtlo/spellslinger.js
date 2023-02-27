@@ -1,45 +1,273 @@
-Raff, Weatherlight Stalwart
-Adeline, Resplendent Cathar
-Battle Screech
-Castle Ardenvale
-Castle Vantress
-Cave of the Frost Dragon
+Aberrant
+Animist's Awakening
+Apocalypse Hydra
+Atalan Jackal
+Benevolent Hydra
+Biophagus
+Birds of Paradise
+Branching Evolution
+Broodlord
+Castle Garenbrig
+Cinder Glade
+Clamavus
 Command Tower
-Counterspell
-Dovin, Grand Arbiter
-Elspeth, Sun's Nemesis
-Faithful Mending
-Farewell
-Gates of Istfell
-Ghostly Pilferer
-Glasspool Mimic
-Hall of Storm Giants
-Halo Fountain
-Hanweir Militia Captain
-Hurkyl, Master Wizard
-Idyllic Beachfront
-Intrepid Adversary
+Crackle with Power
+Cultivate
+Defiler of Vigor
+Devoted Druid
+Electrodominance
+Elementalist's Palette
+Emergent Sequence
+Exotic Orchard
+Farseek
+Forest
+Frontier Bivouac
+Game Trail
+Garruk's Uprising
+Goreclaw, Terror of Qal Sisma
+Gyre Sage
+Hardened Scales
+Harrow
+Heroic Intervention
+Hierophant Bio-Titan
+Hurricane
+Hydroid Krasis
+Incubation Druid
+Inspiring Call
+Invigorating Hot Spring
 Island
-Kabira Takedown
-Lonely Sandbar
-Makindi Stampede
-Meandering River
-Mystic Reflection
+Kalonian Hydra
+Kiora, Behemoth Beckoner
+Kiora's Follower
+Kodama of the West Tree
+Kodama's Reach
+Lair of the Hydra
+Lotus Cobra
+Magus Lucea Kane
+Managorger Hydra
+Mountain
+Neheb, the Eternal
+Neverwinter Hydra
+Nexos
+Oko, Thief of Crowns
+Path of Ancestry
+Primal Might
+Primordial Hydra
+Rampant Growth
+Rhythm of the Wild
+Riverglide Pathway
+Rosheen Meanderer
+Sakura-Tribe Elder
+Savageborn Hydra
+Shadow in the Warp
+Shivan Devastator
+Sol Ring
+Sporocyst
+Steelbane Hydra
+Stonecoil Serpent
+Sylvan Caryatid
+Temple of Abandon
+Temple of Epiphany
+Temple of Mystery
+Tervigon
+The Great Henge
+Trygon Prime
+Tyrant Guard
+Unbound Flourishing
+Vigor
+Winged Hive Tyrant
+Yavimaya Coast
+Zoanthrope
+Akroma, Angel of Fury
+Akroma, Angel of Wrath
+Ancient Brass Dragon
+Ancient Copper Dragon
+Angel of Despair
+Angel of Serenity
+Angelic Arbiter
+Anguished Unmaking
+Arcane Signet
+Archfiend of Despair
+Arid Mesa
+Armageddon
+Aurelia, the Warleader
+Avacyn, Angel of Hope
+Balefire Dragon
+Battlefield Forge
+Blightstep Pathway
+Blind Obedience
+Blood Crypt
+Bloodstained Mire
+Bojuka Bog
+Boros Charm
+Brightclimb Pathway
+Burning-Rune Demon
+Caves of Koilos
+Chaos Warp
+Chromatic Lantern
+Chrome Mox
+Command Beacon
+Command Tower
+Dark Ritual
+Deadly Rollick
+Deflecting Swat
+Demonic Tutor
+Dragon Tempest
+Eiganjo, Seat of the Empire
+Exotic Orchard
+Farewell
+Forbidden Orchard
+Gisela, Blade of Goldnight
+Godless Shrine
+Grim Tutor
+Isshin, Two Heavens as One
+Jeska's Will
+Kaalia of the Vast
+Kaalia, Zenith Seeker
+Liesa, Forgotten Archangel
+Lightning Greaves
+Linvala, Keeper of Silence
+Lord of the Void
+Lotus Petal
+Luxury Suite
+Lyra Dawnbringer
+Mana Confluence
+Mana Crypt
+Marsh Flats
+Master of Cruelties
+Mortify
+Mother of Runes
+Ob Nixilis, Unshackled
+Path to Exile
 Plains
-Poppet Stitcher
-Rabble Rousing
-Razortide Bridge
-Resculpt
-Rumor Gatherer
-Scheming Fence
-Sejiri Shelter
-Skybridge Towers
-Slaughter the Strong
+Plaza of Heroes
+Quicksilver Amulet
+Razaketh, the Foulblooded
+Reanimate
+Reconnaissance
+Reya Dawnbringer
+Ruinous Ultimatum
+Rune-Scarred Demon
+Sacred Foundry
+Savai Triome
+Scalding Tarn
+Seize the Day
+Sephara, Sky's Blade
+Serra's Emissary
+Shizo, Death's Storehouse
+Smothering Tithe
+Sol Ring
+Spectator Seating
+Sulfurous Springs
+Swiftfoot Boots
 Swords to Plowshares
-Talrand, Sky Summoner
-Temple of Enlightenment
-Thraben Standard Bearer
-Time Wipe
-Tithe Taker
-Unbreakable Formation
-Unsubstantiate
+Takenuma, Abandoned Mire
+Talisman of Conviction
+Talisman of Hierarchy
+Talisman of Indulgence
+Teferi's Protection
+Tibalt's Trickery
+Urborg, Tomb of Yawgmoth
+Vandalblast
+Vault of Champions
+Vilis, Broker of Blood
+Whip of Erebos
+Whispersilk Cloak
+Agadeem's Awakening
+Alesha, Who Smiles at Death
+Ancient Tomb
+Arcane Signet
+Arid Mesa
+Aurelia, the Warleader
+Badlands
+Battlefield Forge
+Blade Historian
+Blood Crypt
+Bloodstained Mire
+Cathar Commando
+Caves of Koilos
+Combat Celebrant
+Command Tower
+Dauthi Voidwalker
+Deadly Rollick
+Demonic Tutor
+Dockside Chef
+Dockside Extortionist
+Elesh Norn, Grand Cenobite
+Esper Sentinel
+Field of the Dead
+Flooded Strand
+Gamble
+General Kudro of Drannith
+Generous Gift
+Gisa, Glorious Resurrector
+Godless Shrine
+Grand Abolisher
+Grave Titan
+Grim Haruspex
+Grim Hireling
+Hagra Mauling
+Hanweir Battlements
+Hanweir Garrison
+Haunted Ridge
+Hero of Bladehold
+Imperial Recruiter
+Jirina Kudro
+Kambal, Consul of Allocation
+Keeper of the Accord
+Luxury Suite
+Mana Crypt
+Mangara, the Diplomat
+Marsh Flats
+Morbid Opportunist
+Negan, the Cold-Blooded
+Ophiomancer
+Opposition Agent
+Painful Truths
+Plateau
+Polluted Delta
+Priest of Fell Rites
+Professional Face-Breaker
+Prosper, Tome-Bound
+Queen Marchesa
+Reanimate
+Recruiter of the Guard
+Rick, Steadfast Leader
+Sacred Foundry
+Savai Triome
+Scalding Tarn
+Scrubland
+Selfless Spirit
+Serra Ascendant
+Serra Paragon
+Shattered Sanctum
+Sheoldred, the Apocalypse
+Skullclamp
+Smothering Tithe
+Snow-Covered Mountain
+Snow-Covered Plains
+Snow-Covered Swamp
+Swamp
+Sol Ring
+Solitude
+Species Specialist
+Spectator Seating
+Sun Titan
+Swords to Plowshares
+Syr Konrad, the Grim
+Talisman of Conviction
+Talisman of Hierarchy
+Talisman of Indulgence
+Thalia, Heretic Cathar
+Tymna the Weaver
+Urborg, Tomb of Yawgmoth
+Urza's Incubator
+Urza's Saga
+Valakut Awakening
+Vampiric Tutor
+Verdant Catacombs
+Welcoming Vampire
+Windswept Heath
+Winota, Joiner of Forces
+Wooded Foothills
+Yawgmoth, Thran Physician
