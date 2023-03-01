@@ -5,11 +5,10 @@ over SpellTable.
 
 ## Requirements
 
-- OBS 27.2.1 (Tested)
-- OBS Move Transition 2.8.1 - [Example Setup](https://www.youtube.com/watch?v=mMrYfxo8Lnc))
-
-- Node 19.6.1 (Tested)
-- Docker / Redis
+- [OBS](https://obsproject.com) 27.2.1 (Tested)
+- OBS [Move Transition](https://obsproject.com/forum/resources/move-transition.913/) 2.8.1 - [Example Setup](https://www.youtube.com/watch?v=mMrYfxo8Lnc)
+- [Node](https://nodejs.org/en/) 19.6.1 (Tested)
+- [Docker](https://www.docker.com) / [Redis](https://redis.io)
 
 The command-line interface pushes cards to display to [Redis](https://redis.io). The web server reads the cards from Redis. Redis can be run as a Docker container.
 
