@@ -4,11 +4,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "node ./bin/www.js",
-    "fuzzy": "node ./fuzzydeck.js"
+    "server": "node ./bin/www.cjs",
+    "cli": "node ./cli/app.js",
+    "redis:start": ""
   },
   "dependencies": {
+    "colors": "^1.4.0",
     "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "fuse.js": "^6.6.2",
