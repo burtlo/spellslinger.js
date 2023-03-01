@@ -73,7 +73,7 @@ function castCardWithCardObject(cardObject) {
   const displayPosition = cardObject.displayPosition;
   const timeToEnlargeMs = cardObject.timeToEnlarge || 1000;
   const timeToShrinkMs = cardObject.timeToShrink || 1000;
-  const timeToRotateMs = cardObject.timeToRotate || 400;
+  const timeToRotateMs = cardObject.timeToRotate || 600;
   const timeToFadeMs = cardObject.timeToFade || 1000;
   let doubleFaceCard = false;
 
@@ -112,31 +112,31 @@ function castCardWithCardObject(cardObject) {
       backSideMaterial
     ];
 
+    frontSideMaterial.opacity = 0;
+    // backSideMaterial.opacity = 1;
+
     var cardGeometry = new THREE.BoxGeometry(2,2*1.4,0.000001);
     var cardMesh = new THREE.Mesh(cardGeometry, cardMaterials);
     cardMesh.material.forEach((material) => material.transparent = true);
     scene.add(cardMesh);
 
     // Tween Easing Reference @see https://sole.github.io/tween.js/examples/03_graphs.html
-    const enlargedCoords = { z: 0.25 * (1000 / timeToEnlargeMs), x: 0, opacity: 1.0 };
-    const shrinkCoords = { z: -0.25 * (1000 / timeToShrinkMs), x: 0 };
+    // Tween Reference @see http://tweenjs.github.io/tween.js/docs/user_guide.html
+
+    const enlargedCoords = { z: 7.5, x: 0, opacity: 1.0 };
+    const shrinkCoords = { z: 0, x: 0 };
 
     if (displayPosition == 'left') {
-      enlargedCoords.x = -0.05;
-      shrinkCoords.x = 0.05;
+      enlargedCoords.x = -1.5;
     } else if (displayPosition == 'right') {
-      enlargedCoords.x = 0.05;
-      shrinkCoords.x = -0.05;
+      enlargedCoords.x = 1.5;
     }
 
-    const enlargeTween = new TWEEN.Tween({ z: 0, x: 0, opacity: 0.0 })
+    const enlargeTween = new TWEEN.Tween(cardMesh.position)
     .easing(TWEEN.Easing.Quartic.InOut)
     .to(enlargedCoords, timeToEnlargeMs)
-    .onUpdate((coords) => {
-      cardMesh.position.x = cardMesh.position.x + coords.x;
-      cardMesh.position.z = cardMesh.position.z + coords.z;
-      backSideMaterial.opacity = coords.opacity;
-      frontSideMaterial.opacity = coords.opacity;
+    .onStart(() => {
+      new TWEEN.Tween(frontSideMaterial).to({ opacity: 1.0 }, 1000).start();
     });
 
     const pauseTween = new TWEEN.Tween({})
@@ -157,27 +157,26 @@ function castCardWithCardObject(cardObject) {
 
     });
 
-    const rotateTween = new TWEEN.Tween({ y: 0 })
-    .easing(TWEEN.Easing.Quartic.InOut)
-    .to({ y: 0.240 },timeToRotateMs)
-    .onUpdate((coords) => {
-      cardMesh.rotation.y = cardMesh.rotation.y + coords.y;
-    });
+    const rotateTween = new TWEEN.Tween(cardMesh.rotation)
+    .onStart(() => {
 
-    const shrinkTween = new TWEEN.Tween({ z: 0, x: 0, opacity: 1.0 })
+      new TWEEN.Tween(cardMesh.position).to({ z: 6 },400)
+      .onComplete(() => {
+        new TWEEN.Tween(cardMesh.position).to({ z: 7.5 },400)
+          .start();
+      }).start();
+
+    })
+    .easing(TWEEN.Easing.Quadratic.In)
+    .to({ y: Math.PI }, timeToRotateMs);
+
+    const shrinkTween = new TWEEN.Tween(cardMesh.position)
+    .onStart(() => {
+      new TWEEN.Tween(frontSideMaterial).delay(600).to({ opacity: 0.0 }, 400).start();
+      new TWEEN.Tween(backSideMaterial).delay(600).to({ opacity: 0.0 }, 1000).start();
+    })
     .to(shrinkCoords, timeToShrinkMs)
     .easing(TWEEN.Easing.Quartic.InOut)
-    .onUpdate((coords) => {
-      cardMesh.position.x = cardMesh.position.x + coords.x;
-      cardMesh.position.z = cardMesh.position.z + coords.z;
-    });
-
-    const fadeTween = new TWEEN.Tween({ opacity: 1.0 })
-    .to({ opacity: 0.0 }, timeToFadeMs)
-    .onUpdate((values) => {
-      backSideMaterial.opacity = values.opacity;
-      frontSideMaterial.opacity = values.opacity;
-    })
     .onComplete((object) => {
       scene.remove(cardMesh);
       removeCastOperation();
@@ -193,7 +192,6 @@ function castCardWithCardObject(cardObject) {
       pauseTween.chain(shrinkTween);
     }
 
-    shrinkTween.chain(fadeTween);
     enlargeTween.start();
 
   });

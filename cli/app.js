@@ -198,9 +198,8 @@ const searchScryfallCommand = {
   },
   perform: async function(input,callback) {
     const searchTerm = this.processInput(input);
-    const searchQuery = Cards.search(`name:${searchTerm}`,1);
+    const searchQuery = Cards.search(`${searchTerm}`,1);
     const results = await searchQuery.get(16);
-
     global.lastResultSet = results.map((result) => result.name);
     const displayResults = global.lastResultSet.map((elem, index) => `${index} - ${elem}`).join("\n");
     return callback(null, displayResults);
