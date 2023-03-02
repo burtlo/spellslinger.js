@@ -17,7 +17,19 @@ router.get('/cast', async (req, res, next) => {
   await client.disconnect();
 
   res.json(parsedResults);
-})
+});
+
+router.post('/cast', async (req, res, next) => {
+  await client.connect();
+
+  console.log(JSON.stringify(req.body));
+
+  let _result = await client.rPush('cast',JSON.stringify(req.body));
+
+  await client.disconnect();
+
+  res.json({ result: _result });
+});
 
 router.delete('/cast', async (req, res, next) => {
   await client.connect();
@@ -26,6 +38,6 @@ router.delete('/cast', async (req, res, next) => {
   await client.disconnect();
 
   res.json(JSON.parse(_result));
-})
+});
 
 module.exports = router;
