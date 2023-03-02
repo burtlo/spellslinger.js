@@ -5,7 +5,17 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
 
+// https://sequelize.org/docs/v6/getting-started/
+const { Sequelize } = require('sequelize');
+
+// // Option 2: Passing parameters separately (sqlite)
+// const sequelize = new Sequelize({
+//   dialect: 'sqlite',
+//   storage: 'database/local.sqlite'
+// });
+
 var indexRouter = require('./routes/index.cjs');
+var usersRouter = require('./routes/users.cjs');
 
 var app = express();
 
@@ -30,8 +40,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions))
 
-
 app.use('/', indexRouter);
+app.use('/users/', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

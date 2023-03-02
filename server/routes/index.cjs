@@ -8,6 +8,11 @@ router.get('/', (req, res, next) => {
   res.render('index', { title: 'Express' });
 });
 
+/* animate */
+router.get('/animate', (req, res, next) => {
+  res.render('animate', { title: 'Express' });
+});
+
 router.get('/cast', async (req, res, next) => {
   await client.connect();
 
