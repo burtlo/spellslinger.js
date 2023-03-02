@@ -16,6 +16,8 @@
     "express": "~4.16.1",
     "fuse.js": "^6.6.2",
     "http-errors": "~1.6.3",
+    "inquirer": "^9.1.4",
+    "inquirer-search-list": "^1.2.6",
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
     "mustache": "^4.2.0",

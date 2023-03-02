@@ -177,7 +177,7 @@ function castCardWithCardObject(cardObject) {
     })
     .to(shrinkCoords, timeToShrinkMs)
     .easing(TWEEN.Easing.Quartic.InOut)
-    .onComplete((object) => {
+    .onComplete(() => {
       scene.remove(cardMesh);
       removeCastOperation();
     });

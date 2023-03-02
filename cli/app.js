@@ -4,6 +4,10 @@ import Fuse from 'fuse.js';
 import redis from 'redis';
 import { Cards } from 'scryfall-api';
 import colors from 'colors';
+import inquirer from 'inquirer';
+import inquirerSearchList from 'inquirer-search-list';
+
+inquirer.registerPrompt('search-list', inquirerSearchList);
 
 /**
  * The SpellSlinger class provides the interface for managing the cards that
@@ -222,7 +226,6 @@ const loadCardListCommand = {
   },
   perform: function(input,callback) {
     const filePaths = this.processInput(input);
-
     const list = [];
 
     let errorFound = false;
@@ -245,6 +248,7 @@ const loadCardListCommand = {
 
     global.cardList = [ ...new Set(global.cardList.concat(list)) ];
     global.fuse = new Fuse(global.cardList, { })
+
 
     if (errorFound) {
       return callback(null, { status: 'error', message: errorMessage });
@@ -276,6 +280,21 @@ const searchFuseCommand = {
   perform: async function(input,callback) {
     global.lastResultSet = fuse.search(input).map(elem => elem.item);
     const displayResults = global.lastResultSet.map((elem, index) => `${index} - ${elem}`).join("\n");
+
+    const cardChoices = global.lastResultSet.map((item) => { return { name: item, value: item } });
+
+    if (cardChoices.length != 0) {
+
+      const answer = await inquirer.prompt({
+        type: 'list',
+        name: 'card',
+        message: 'select a card',
+        choices: cardChoices
+      });
+
+      return callback(null,answer);
+    }
+
     return callback(null, displayResults);
   },
   processInput: function(input) {
@@ -327,4 +346,68 @@ function modifyOutput(output) {
   }
 }
 
-repl.start({ prompt: "=> ", eval: commandLoop, writer: modifyOutput });
+global.lastCastOptions = { timeToDisplay: 8, displayPosition: 'left' };
+
+async function castCardPosition() {
+  let answer = await inquirer.prompt({
+    type: 'list',
+    name: 'displayPosition',
+    choices: [ 'left', 'right', 'center'],
+    message: `[${lastCastOptions.displayPosition}]`,
+  });
+
+  global.lastCastOptions.displayPosition = answer.displayPosition;
+}
+
+async function timeToDisplay() {
+  let answer = await inquirer.prompt({
+    type: 'number',
+    name: 'timeToDisplay',
+    message: `Display seconds: [${lastCastOptions.timeToDisplay}]`,
+  });
+
+  global.lastCastOptions.timeToDisplay = answer.timeToDisplay;
+}
+
+async function cardCardQuestion(cardName) {
+  let castCardOption = await inquirer.prompt({
+    type: 'list',
+    name: 'option',
+    message: `[${cardName}]`,
+    choices: [
+      { name: `cast`, value: 'cast' },
+      { name: `display time : ${lastCastOptions.timeToDisplay} seconds`, value: 'timeToDisplay' },
+      { name: `position     : ${lastCastOptions.displayPosition}`, value: 'displayPosition' }
+    ]
+  });
+
+  if (castCardOption.option == 'timeToDisplay') {
+    await timeToDisplay();
+    await cardCardQuestion(cardName);
+  } else if (castCardOption.option == 'displayPosition') {
+    await castCardPosition();
+    await cardCardQuestion(cardName);
+  } else if (castCardOption.option == 'cast') {
+    console.log('casting it');
+  }
+}
+
+// repl.start({ prompt: "=> ", eval: commandLoop, writer: modifyOutput });
+
+async function coreInquirerLoop() {
+  inquirer.prompt({
+    type: 'search-list',
+    name: 'card',
+    message: '=>',
+    choices: global.cardList
+  }).then(async (answers) => {
+    // console.log(answers);
+    let something = await cardCardQuestion(answers.card);
+    coreInquirerLoop();
+  });
+}
+
+// console.log("loading cardlist");
+loadCardListCommand.perform("/load cardlist.txt",(ignore,results) => { console.log(results); });
+
+coreInquirerLoop();
