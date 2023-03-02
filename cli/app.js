@@ -346,7 +346,7 @@ function modifyOutput(output) {
   }
 }
 
-global.lastCastOptions = { timeToDisplay: 8, displayPosition: 'left' };
+global.lastCastOptions = { timeToDisplay: 8, displayPosition: 'left', action: 'cast' };
 
 async function castCardPosition() {
   let answer = await inquirer.prompt({
@@ -377,7 +377,8 @@ async function cardCardQuestion(cardName) {
     choices: [
       { name: `cast`, value: 'cast' },
       { name: `display time : ${lastCastOptions.timeToDisplay} seconds`, value: 'timeToDisplay' },
-      { name: `position     : ${lastCastOptions.displayPosition}`, value: 'displayPosition' }
+      { name: `position     : ${lastCastOptions.displayPosition}`, value: 'displayPosition' },
+      { name: `cancel`, value: 'cancel' }
     ]
   });
 
@@ -387,8 +388,12 @@ async function cardCardQuestion(cardName) {
   } else if (castCardOption.option == 'displayPosition') {
     await castCardPosition();
     await cardCardQuestion(cardName);
+  } else if (castCardOption.option == 'exit') {
+    // no action
   } else if (castCardOption.option == 'cast') {
-    console.log('casting it');
+    // console.log(global.lastCastOptions);
+    let result = await spellSlinger.sendCard(global.lastCastOptions);
+    // console.log(result);
   }
 }
 
@@ -401,6 +406,7 @@ async function coreInquirerLoop() {
     message: '=>',
     choices: global.cardList
   }).then(async (answers) => {
+    global.lastCastOptions.cardName = answers.card;
     // console.log(answers);
     let something = await cardCardQuestion(answers.card);
     coreInquirerLoop();
