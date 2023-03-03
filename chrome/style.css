@@ -1,7 +1,7 @@
 :root {
   --grey: #6f7682;
-  --blue: #1c96fc;
-  --blue-alt: #166efd;
+  --purple: #583b8f;
+  --purple-alt: #735196;
   --grey-light: #bac1cc;
   --grey-subtle: #f7f8fa;
 
@@ -11,7 +11,7 @@
   --green-alt: #0d5a1e;
 
   --color-border: var(--grey-light);
-  --gradient-blue: linear-gradient(90deg, var(--blue), var(--blue-alt));
+  --gradient-purple: linear-gradient(90deg, var(--purple), var(--purple-alt));
   --shadow-list-hover: 0 2px 0 -1px var(--grey-light),
     0 -2px 0 -1px var(--grey-light), 0 0 0 1px var(--grey-light),
     0 8px 4px -4px rgba(10, 10, 10, 0.1), 0 6px 8px -2px rgba(10, 10, 10, 0.05);
@@ -62,6 +62,7 @@ body {
   margin: 0;
   font-size: 14px;
   line-height: 1.4;
+  background-color: #FCF5E5;
 }
 
 .main {
@@ -73,7 +74,7 @@ body {
 .header {
   color: white;
   margin-top: 10px;
-  background: var(--gradient-blue);
+  background: var(--gradient-purple);
   padding: 20px;
   position: relative;
   overflow: hidden;
@@ -84,13 +85,17 @@ body {
   content: "";
   width: 600px;
   height: 300px;
-  background: var(--gradient-blue);
+  background: var(--gradient-purple);
   position: absolute;
   bottom: -140px;
   right: -450px;
   -webkit-transform: skewY(-30deg);
   transform: skewY(-30deg);
   opacity: 0.5;
+}
+
+img.logo {
+  height: 64px;
 }
 
 .header__container {
@@ -151,15 +156,6 @@ body {
   border-left: 5px solid var(--blue-alt);
 }
 
-#vaultPolicies {
-  color: white;
-  margin-bottom: 10px;
-  padding: 10px;
-  position: relative;
-  background: var(--blue);
-  border-left: 5px solid var(--blue-alt);
-}
-
 /* Form Fields */
 
 .label {
@@ -194,7 +190,7 @@ body {
 }
 
 .h1 {
-  font-size: 1.5rem;
+  font-size: 3rem;
   font-weight: 100;
 }
 

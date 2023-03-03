@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "SpellSlinger",
   "description": "A Chrome extension to enhance Spell Table",
-  "version": "0.1",
+  "version": "0.11",
   "action": {
     "default_icon": "icons/logo128.png",
     "default_popup": "popup.html",

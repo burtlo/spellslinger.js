@@ -1,33 +1,14 @@
-# Brower Plugin
+# Setup
 
-These assets are provided to perform the tasks described in the [Vault Secrets
-in a Browser Plugin](https://learn.hashicorp.com/tutorials/vault/browser-plugin)
-tutorial.
+To install this extensions from this repository requires you to enable developer mode.
+The instructions here are based on the Chrome extensions [Development Basics](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/) document.
 
-This is a fork of the work started by
-[Dimitry1987](https://github.com/Dmitry1987) and continued by [Chris
-Blum](https://github.com/zeichenanonym).
+1. Go to the Extensions page by entering chrome://extensions in a new tab. (By design chrome:// URLs are not linkable.)
 
+    - Alternatively, click on the Extensions menu puzzle button and select Manage Extensions at the bottom of the menu.
 
-## Setup
+    - Or, click the Chrome menu, hover over More Tools, then select Extensions.
 
-The plugin assumes that you have access to a Vault sever with the userpass
-authentication method created. The user that logins needs to have access to the
-a KV-V2 secrets engine mounted at the path `vaultpass`.
+1. Enable Developer Mode by clicking the toggle switch next to Developer mode.
 
-```shell
-vault server -dev -dev-root-token-id root -dev-listen-address 0.0.0.0:8200
-vault auth enable userpass
-vault secrets enable -path=vaultpass kv-v2
-vault policy write vault_pass-policy - <<EOF
-path "vaultpass/*" {
-  capabilities = [ "read" ]
-}
-EOF
-
-vault write auth/userpass/users/browser \
-  password=browser \
-  policies=vault_pass-policy
-
-vault kv put vaultpass/extensions username=extension_user password=extension_password
-```
+1. Click the Load unpacked button and select the extension directory.
