@@ -1,22 +1,19 @@
 /* global browser */
 console.log("SpellSlinger looking for play table!");
 
-rootDiv = document.getElementById("root")
-// let settingsAreNotSet = true;
+/**
+ * The playTableObserver looks for the elements with the class name associated
+ * with the SpellTable table that displays the four players (as opposed to the
+ * login page where the input setup is configured).
+ */
+const playTableClasses = "flex w-full h-full";
 
 let playTableObserver = new MutationObserver(mutations => {
   for(let mutation of mutations) {
     // console.log(mutation);
 
-    // if (settingsAreNotSet == true && mutation.nextSibling && mutation.nextSibling.className === "absolute bottom-0 inset-x-0 p-4 flex justify-between items-center") {
-    //   let buttons = mutation.nextSibling.querySelectorAll("button");
-    //   let settingsButton = buttons[2];
-    //   settingsButton.click();
-    // }
-
     for(let addedNode of mutation.addedNodes) {
-      // console.log(addedNode);
-      if (addedNode.className === "flex w-full h-full") {
+      if (addedNode.className === playTableClasses) {
         console.log("Found a play table", addedNode);
         setupLastCardObserver(addedNode);
         setupCardHistoryObserver(addedNode);
@@ -26,58 +23,8 @@ let playTableObserver = new MutationObserver(mutations => {
   }
 });
 
+rootDiv = document.getElementById("root")
 playTableObserver.observe(rootDiv, { childList: true, subtree: true });
-
-// let lobbyObserver = new MutationObserver(mutations => {
-//   for(let mutation of mutations) {
-//     // console.log(mutation);
-
-
-//     if (settingsAreNotSet == true && mutation.target.className === "ReactModalPortal") {
-//       let closeButton = mutation.target.querySelector("button");
-//       console.log("Configure Inputs");
-
-//       setTimeout(() => {
-//         setCameraInput();
-//         settingsAreNotSet = false;
-//         setTimeout(() => {
-//           closeButton.click();
-//           // setTimeout(() => {
-//           //   joinGameNow();
-//           // },1000);
-//         },1000);
-
-//       },2000);
-//       // lobbyObserver.disconnect();
-//     }
-//   }
-// });
-
-// lobbyObserver.observe(rootDiv.querySelector("#modal-container"), { childList: true, subtree: true });
-
-// function setCameraInput() {
-//   let defaultCameraSource = "OBS Virtual Camera (m-de:vice)";
-
-//   let labels = document.querySelectorAll("label");
-//   for (let index=0; index < labels.length; index++) {
-//     if (labels[0].innerText == 'Camera source') {
-//       let cameraSelect = labels[0].nextSibling.querySelector("select");
-//       console.log(cameraSelect);
-//       console.log(cameraSelect.value);
-//       let cameraOptions = cameraSelect.querySelectorAll("option");
-
-//       for (let camIndex = 0; camIndex < cameraOptions.length; camIndex++) {
-//         console.log(cameraOptions[camIndex].innerText);
-//         console.log(cameraOptions[camIndex].value);
-//         if (cameraOptions[camIndex].innerText == defaultCameraSource) {
-//           cameraSelect.selectedIndex = camIndex;
-//           cameraSelect.dispatchEvent(new Event("didChange"));
-//         }
-//       }
-//     }
-//   }
-
-// }
 
 function joinGameNow() {
   let buttons = document.getElementsByTagName("button");
@@ -97,7 +44,7 @@ let contextMenuObserver = new MutationObserver(mutations => {
       // console.log("Added Node:",addedNode);
       let contextMenu = addedNode.querySelector(".bg-surface-high.rounded.text-sm.shadow-lg.py-1.w-auto");
       if ( contextMenu !== null) {
-        console.log("Context Menu FOUND");
+        // console.log("Context Menu FOUND");
         appendHightlightToContextMenu(contextMenu);
       }
     }
@@ -114,18 +61,18 @@ function setupLastCardObserver(playTable) {
       for(let addedNode of mutation.addedNodes) {
         console.log(addedNode);
         if (addedNode.className === "w-full flex justify-center") {
-          console.log("Found last card",addedNode);
+          // console.log("Found last card",addedNode);
           var cardImage = addedNode.querySelector('img');
           var cardName = cardImage.alt;
-          console.log("Should I cast? " + cardName);
 
+          console.log(`Last card clicked on battlefield: ${cardName}`);
 
           chrome.storage.local.set({ lastCardPlayed: cardName });
 
           var contextMenu = addedNode.getElementsByClassName("flex flex-row justify-end px-1 py-1 md:px-3")[0];
-          console.log("Context Menu Button found:",contextMenu);
+
           contextMenu.addEventListener("click", () => {
-            console.log("Context menu of " + cardName + " was clicked.");
+            // console.log("Context menu of " + cardName + " was clicked.");
             chrome.storage.local.set({ lastContextMenuClicked: cardName });
           });
         }
@@ -138,31 +85,43 @@ function setupLastCardObserver(playTable) {
 
 function setupCardHistoryObserver(playTable) {
 
-
   let cardHistorySection = playTable.getElementsByClassName("py-2 flex flex-col flex-1 w-full")[0]
                             .getElementsByClassName("pr-4")[1];
 
   let cardObserver = new MutationObserver(mutations => {
     for (let mutation of mutations) {
+      // console.log(`Card History Observer: Mutation`);
       // console.log(mutation);
 
       let cardImages = mutation.target.querySelectorAll("img");
       let cardHistory = [];
+      let contextMenus = [];
 
-      for (let imageIndex = 0; imageIndex < cardImages; imageIndex++) {
+      // Create a card history from all the images alt text.
+      for (let imageIndex = 0; imageIndex < cardImages.length; imageIndex++) {
         cardHistory.unshift(cardImages[imageIndex].alt);
       }
 
+      console.log(`The card history contains ${cardHistory.length} entries`);
+      console.log(cardHistory);
+
+      for (imageIndex = 0; imageIndex < cardImages.length; imageIndex++) {
+        contextMenus.push({ cardName: cardImages[imageIndex].alt, element: cardImages[imageIndex].nextSibling });
+      }
+
+      contextMenus.forEach((contextMenu) => {
+        //TODO: The event listener here is added a bunch of times. This creates many click events are fired.
+        contextMenu.element.addEventListener("click", () => {
+          // console.log("Context menu of " + contextMenu.cardName + " was clicked.");
+          chrome.storage.local.set({ lastContextMenuClicked: contextMenu.cardName });
+        });
+      });
+
       chrome.storage.local.remove([ "cardHistory" ], () => {
         chrome.storage.local.set({ cardHistory: cardHistory }, () => {
-          var contextMenu = addedNode.getElementsByClassName("flex flex-row justify-end px-1 py-1 md:px-3")[0];
-          console.log("Context Menu Button found:",contextMenu);
-          contextMenu.addEventListener("click", () => {
-            console.log("Context menu of " + cardName + " was clicked.");
-            chrome.storage.local.set({ lastContextMenuClicked: cardName });
-          });
-        })
-      })
+          // no-op
+        });
+      });
     }
   });
 
@@ -171,30 +130,36 @@ function setupCardHistoryObserver(playTable) {
 
 function appendHightlightToContextMenu(contextMenu) {
   if (contextMenu !== undefined) {
-    let divider = contextMenu.getElementsByClassName("border-t")[0];
-    if (divider !== undefined) {
+    // console.log(contextMenu);
 
-      let newDivider = divider.cloneNode();
-      contextMenu.appendChild(newDivider);
-
-      let menuItem = contextMenu.getElementsByClassName("px-4")[0];
-      if (menuItem !== undefined) {
-
-        let newMenuItem = menuItem.cloneNode();
-
-        newMenuItem.appendChild(document.createTextNode("Highlight"));
-
-        chrome.storage.local.get([ "lastContextMenuClicked" ], (results) => {
-          let cardName = results.lastContextMenuClicked;
-          newMenuItem.addEventListener("click",() => {
-            postCardSpotted(cardName);
-            removeContextMenu();
-          })
-        });
-
-        contextMenu.appendChild(newMenuItem)
+    for (let x = 0; x < contextMenu.children.length; x++) {
+      if (contextMenu.children[x].innerText == "Cast to Spellslinger") {
+        // console.log("Cast to Spellslinger already exists");
+        return;
       }
     }
+
+    // <div class="border-t border-surface-low my-1" style="height: 1px;"></div>
+    let newDivider = document.createElement("div");
+    newDivider.className = "border-t border-surface-low my-1";
+    newDivider.style = "height: 1px;";
+
+    contextMenu.appendChild(newDivider);
+
+    // <div class="px-4 cursor-pointer transition-all ease-in-out duration-200 hover:bg-surface-low hover:text-white py-1 text-xs">View on Gatherer</div>
+    let newMenuItem = document.createElement("div");
+    newMenuItem.className = "px-4 cursor-pointer transition-all ease-in-out duration-200 hover:bg-surface-low hover:text-white py-1 text-xs";
+    newMenuItem.appendChild(document.createTextNode("Cast to Spellslinger"));
+
+    contextMenu.appendChild(newMenuItem);
+
+    chrome.storage.local.get([ "lastContextMenuClicked" ], (results) => {
+      let cardName = results.lastContextMenuClicked;
+      newMenuItem.addEventListener("click",() => {
+        postCardSpotted(cardName);
+        removeContextMenu();
+      })
+    });
   }
 }
 function postCardSpotted(cardName) {
