@@ -1,26 +1,24 @@
 function mainLoaded() {
   console.log("popup opened");
 
-  document.getElementById("clearCast").addEventListener('click', clearCast, false);
-
-  browser.storage.local.get([ "lastCardPlayed", "cardsPlayed" ])
+  browser.storage.local.get([ "lastCardPlayed", "cardHistory" ])
   .then((results) => {
     console.log(results);
-    let cardsPlayed = results.cardsPlayed;
+    let cardHistory = results.cardHistory;
     let lastCardPlayed = results.lastCardPlayed;
 
-    console.log(cardsPlayed);
+    console.log(cardHistory);
     console.log("ADDING:" + lastCardPlayed);
 
     if (lastCardPlayed !== undefined) {
-      cardsPlayed.push(lastCardPlayed);
+      cardHistory.push(lastCardPlayed);
     }
 
     browser.storage.local.remove([ "lastCardPlayed" ]);
-    browser.storage.local.set({ cardsPlayed: cardsPlayed })
+    browser.storage.local.set({ cardHistory: cardHistory })
 
-    for (let index = 0; index < cardsPlayed.length; index++) {
-      populateCardToCast(cardsPlayed[index]);
+    for (let index = 0; index < cardHistory.length; index++) {
+      populateCardToCast(cardHistory[index]);
     }
   });
 
@@ -52,12 +50,12 @@ function populateCardToCast(lastCardPlayed) {
 function castCardWithName(cardName) {
   console.log("Casting " + cardName);
 
-  fetch("http://127.0.0.1:9292/cast", {
+  fetch("http://127.0.0.1:3000/cast", {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ 'card_name': cardName })
+    body: JSON.stringify({ 'cardName': cardName })
     },
   ).catch((error) => {
     console.log(error);
@@ -76,22 +74,6 @@ function castCard() {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ 'card_name': cardName })
-    },
-  ).catch((error) => {
-    console.log(error);
-  })
-
-}
-
-function clearCast() {
-  console.log("Clearing Casting");
-
-  fetch("http://127.0.0.1:9292/cast", {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ 'card_name': '' })
     },
   ).catch((error) => {
     console.log(error);

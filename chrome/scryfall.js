@@ -22,10 +22,13 @@ chrome.storage.onChanged.addListener((changes, area) => {
   }
 })
 
-// TODO feature flag for casting automatically on cardSpotted
-
+// Whenever SpellTable makes a web request to Scryfall we want to send that
+// card name to Spellslinger as well. This means that any card clicked on
+// the battlefield triggers a cast in SpellSlinger.
+//
+// TODO this functionality should only take action if this is configured on.
+//
 chrome.webRequest.onBeforeRequest.addListener( (details) => {
-  // console.log(details)
 
   var postedString = decodeURIComponent(String.fromCharCode.apply(null,
     new Uint8Array(details.requestBody.raw[0].bytes)));
