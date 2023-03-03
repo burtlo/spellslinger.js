@@ -23,10 +23,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Access-Control-Allow-Origin’:’*’
 const corsOptions = {
-  origin: ['https://api.scryfall.com'],
+  origin: true,
   optionsSuccessStatus: 200
 };
+
 
 app.use(cors(corsOptions))
 
