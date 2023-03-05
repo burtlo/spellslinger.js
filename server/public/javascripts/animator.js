@@ -180,6 +180,7 @@ function castCardWithCardObject(cardObject) {
     .onComplete((object) => {
       scene.remove(cardMesh);
       removeCastOperation();
+      // readyForNextCast = true;
     });
 
     enlargeTween.chain(pauseTween);

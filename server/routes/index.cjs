@@ -19,7 +19,29 @@ router.get('/cast', async (req, res, next) => {
   res.json(parsedResults);
 });
 
+router.post('/identify', async (req, res, next) => {
+  const cardToIdentify = req.body;
+
+  if (cardToIdentify.cardName == 'Minions') {
+    res.redirect('/command');
+  } else {
+    res.redirect('/cast');
+  }
+});
+
 router.post('/cast', async (req, res, next) => {
+  await client.connect();
+
+  console.log(JSON.stringify(req.body));
+
+  let _result = await client.rPush('cast',JSON.stringify(req.body));
+
+  await client.disconnect();
+
+  res.json({ result: _result });
+});
+
+router.post('/command', async (req, res, next) => {
   await client.connect();
 
   console.log(JSON.stringify(req.body));
