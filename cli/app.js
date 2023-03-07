@@ -303,12 +303,54 @@ const helpCommand = {
   }
 }
 
+const identifyCommand = {
+  description: `  /i, /ident\n\tSend a card object to be identified\n`,
+  /**
+   * Perform a list operation when the input contains "/c" or "/clear"
+   * @param {String} input
+   * @returns
+   */
+  doesMatch: function(input)  {
+    const firstInputTerm = input.trim().split(" ")[0];
+    return (firstInputTerm == '/i' || firstInputTerm == '/ident');
+  },
+  perform: async function(input, callback) {
+    const params = this.processInput(input);
+    params.cardName = global.lastResultSet[params.cardIndex];
+    delete params.cardIndex;
+    console.log(`Sending to Identify:`);
+    console.log(params);
+
+    let result = await fetch("http://127.0.0.1:3000/identify", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(params)
+      },
+    ).catch((error) => {
+      console.log(error);
+    });
+
+    return callback(null, result);
+  },
+  processInput: function(input) {
+    const terms = input.trim().split(" ");
+
+    return {
+      cardIndex: parseInt(terms[1]) || 0,
+    }
+  }
+}
+
+
 loadedCommands.push(castCommand);
 loadedCommands.push(listCommand);
 loadedCommands.push(clearCommand);
 loadedCommands.push(searchScryfallCommand);
 loadedCommands.push(loadCardListCommand);
 loadedCommands.push(searchFuseCommand);
+loadedCommands.push(identifyCommand);
 loadedCommands.push(helpCommand);
 
 const commandLoop = async (input,context,filename,callback) => {

@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var redis = require('redis');
 var client = redis.createClient();
+const Queue = require('bee-queue');
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
@@ -22,11 +23,11 @@ router.get('/cast', async (req, res, next) => {
 router.post('/identify', async (req, res, next) => {
   const cardToIdentify = req.body;
 
-  if (cardToIdentify.cardName == 'Minions') {
-    res.redirect('/command');
-  } else {
-    res.redirect('/cast');
-  }
+  const queue = new Queue('identify');
+  const job = queue.createJob({ userName: 'bolasUser', cardName: cardToIdentify.cardName});
+  job.save();
+
+  res.json({ result: 'success' });
 });
 
 router.post('/cast', async (req, res, next) => {
