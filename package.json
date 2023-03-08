@@ -7,7 +7,9 @@
     "server": "node ./bin/www.cjs",
     "cli": "node ./cli/app.js",
     "job-identify": "node ./jobs/identify.js",
-    "job-cast": "node ./jobs/cast.js"
+    "job-cast": "node ./jobs/cast.js",
+    "job-process": "node ./jobs/process.js",
+    "jobs": "node ./jobs/identify.js ./jobs/process.js ./jobs/cast.js"
   },
   "dependencies": {
     "bee-queue": "^1.5.0",
@@ -22,6 +24,7 @@
     "morgan": "~1.9.1",
     "mustache": "^4.2.0",
     "mustache-express": "^1.3.2",
+    "polyfill": "^0.1.0",
     "redis": "^4.6.4",
     "requirejs": "^2.3.6",
     "scryfall-api": "^3.2.4"

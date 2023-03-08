@@ -2,7 +2,7 @@ console.log("SpellSlinger network watcher loaded")
 
 function postCardSpotted(cardName) {
   console.log(`postCardSpotted - casting: ${cardName}`);
-  fetch("http://127.0.0.1:3000/cast", {
+  fetch("http://127.0.0.1:3000/identify", {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

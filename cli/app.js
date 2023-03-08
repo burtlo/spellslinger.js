@@ -369,6 +369,6 @@ function modifyOutput(output) {
   }
 }
 
-searchScryfallCommand.perform("/scry set:fjmp minions",(_,results) => { console.log(results); } )
+searchScryfallCommand.perform("/scry set:fjmp spellcasting",(_,results) => { console.log(results); } )
 
 repl.start({ prompt: "=> ", eval: commandLoop, writer: modifyOutput });
