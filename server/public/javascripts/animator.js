@@ -66,7 +66,7 @@ function animate() {
   requestAnimationFrame( animate );
 
   // Reach out to the messaging service for the next operation
-  checkForNextCastOperation(scene)
+  checkForNextCastOperation(scene);
 
   TWEEN.update();
   renderer.render( scene, camera );

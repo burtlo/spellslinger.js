@@ -8,8 +8,7 @@
     "cli": "node ./cli/app.js",
     "job-identify": "node ./jobs/identify.js",
     "job-cast": "node ./jobs/cast.js",
-    "job-process": "node ./jobs/process.js",
-    "jobs": "node ./jobs/identify.js ./jobs/process.js ./jobs/cast.js"
+    "job-process": "node ./jobs/process.js"
   },
   "dependencies": {
     "bee-queue": "^1.5.0",

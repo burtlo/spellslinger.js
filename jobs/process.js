@@ -14,10 +14,15 @@ const sampleUser = {
     {
       cardName: 'Spellcasting',
       action: 'toggleSpellCast'
+    },
+    {
+      cardName: 'Angels',
+      action: 'toggleAnimation'
     }
   ],
   flags: {
-    spellCast: false
+    spellCast: false,
+    livingCardAnimation: false
   }
 }
 
@@ -26,12 +31,9 @@ async function findUser(queryObject) {
 }
 
 async function getActionForCardName(user,cardName) {
-  console.log('getActionForCardName');
   let foundCommand = user.commandCards.find((commandCard) => { return commandCard.cardName == cardName });
-  console.log(foundCommand);
-
   if (foundCommand) {
-    return 'toggleSpellCast'
+    return foundCommand.action;
   } else {
     return 'notACommand'
   }
@@ -53,14 +55,19 @@ processQueue.process(async (job, done) => {
   let user = await findUser({ userName: job.data.userName });
   let cardName = job.data.cardName;
 
-  console.log(`Checking for Card Actions: ${cardName}`);
+  console.log(`Checking for card actions: ${cardName}`);
 
   let action = await getActionForCardName(user, cardName);
 
+  console.log(`Processing with command: ${action}`);
   if (action == 'toggleSpellCast') {
     console.log("Toggling SpellCasting");
     user.flags.spellCast = !user.flags.spellCast;
     console.log(user.flags.spellCast);
+  } else if (action == 'toggleAnimation') {
+    console.log("Toggling Living Animations");
+    user.flags.livingCardAnimation = !user.flags.livingCardAnimation;
+    console.log(user.flags.livingCardAnimation);
   } else if (action == 'notACommand' && user.flags.spellCast) {
     console.log(`Casting: ${job.data.cardName}`);
     castQueue.createJob(job.data).save();

@@ -7,6 +7,55 @@ let castEndpointUrl = `/cast`;
 var loader = new THREE.TextureLoader();
 const cardBackMaterial = new THREE.MeshLambertMaterial({map: loader.load('/images/magic-card-back.jpg')});
 
+function displayLivingCardAnimationWithCardObject(cardObject, scene) {
+  console.log('displayLivingCardAnimationWithCardObject');
+
+  const videoElement = document.createElement('video');
+  videoElement.setAttribute('id','livingCardAnimation');
+  videoElement.setAttribute('autoplay','');
+  videoElement.setAttribute('muted','');
+  videoElement.setAttribute('controls','');
+  videoElement.setAttribute('style','display: none;');
+  const sourceElement = document.createElement('source');
+  sourceElement.setAttribute('src','/videos/BalefulStrix_NilsHamm.mp4');
+  sourceElement.setAttribute('type','video/mp4');
+  videoElement.appendChild(sourceElement);
+  document.getElementsByTagName('body')[0].appendChild(videoElement);
+
+  const video = document.getElementById('livingCardAnimation');
+  const texture = new THREE.VideoTexture( video );
+  texture.needsUpdate = true;
+  let material = new THREE.MeshBasicMaterial({map: texture });
+  material.transparent = true;
+  material.opacity = 0;
+  material.needsUpdate = true;
+
+  let geometry = new THREE.PlaneGeometry(32,18);
+  const plane = new THREE.Mesh(geometry, material);
+
+  videoElement.onloadeddata = () => {
+    console.log('video loaded');
+    scene.add( plane );
+    videoElement.play();
+
+    new TWEEN.Tween(material).to({ opacity: 1.0 }, 1000).start();
+
+  }
+
+  videoElement.onended = () => {
+    console.log('video ended');
+
+    new TWEEN.Tween(material)
+      .to({ opacity: 0.0 }, 1000)
+      .onComplete(() => {
+        removeCastOperation();
+        videoElement.remove();
+        scene.remove(plane);
+      })
+      .start();
+  }
+}
+
 function castCardWithCardObject(cardObject, scene) {
 
   const timeToDisplayMs = cardObject.timeToDisplay || 8000;
@@ -142,13 +191,18 @@ const checkForNextCastOperation = (scene) => {
   fetch(castEndpointUrl)
     .then(response => response.json())
     .then((response) => {
-      if (response.cardName === undefined) {
+      if (response.animation === undefined) {
 
         setTimeout(() => {
           readyForNextCommand = true;
         }, timeBetweenNextCastCheck);
 
-      } else {
+      } else if (response.animation === 'video') {
+        console.log('Animation: Video');
+        displayLivingCardAnimationWithCardObject(response, scene);
+
+      } else if (response.animation === 'cast') {
+        console.log('Animation: Cast');
         castCardWithCardObject(response, scene);
       }
     })

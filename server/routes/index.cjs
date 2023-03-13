@@ -13,6 +13,9 @@ router.get('/cast', async (req, res, next) => {
   await client.connect();
 
   let _result = await client.lRange('cast',0,0);
+  if (_result.length != 0) {
+    console.log(`Returning item in queue: ${_result}`);
+  }
   let parsedResults = (_result.length == 0 ? {} : JSON.parse(_result));
 
   await client.disconnect();
@@ -23,35 +26,11 @@ router.get('/cast', async (req, res, next) => {
 router.post('/identify', async (req, res, next) => {
   const cardToIdentify = req.body;
 
-  const queue = new Queue('identify');
+  const queue = new Queue('identify', { redis: client });
   const job = queue.createJob({ userName: 'bolasUser', cardName: cardToIdentify.cardName});
   job.save();
 
   res.json({ result: 'success' });
-});
-
-router.post('/cast', async (req, res, next) => {
-  await client.connect();
-
-  console.log(JSON.stringify(req.body));
-
-  let _result = await client.rPush('cast',JSON.stringify(req.body));
-
-  await client.disconnect();
-
-  res.json({ result: _result });
-});
-
-router.post('/command', async (req, res, next) => {
-  await client.connect();
-
-  console.log(JSON.stringify(req.body));
-
-  let _result = await client.rPush('cast',JSON.stringify(req.body));
-
-  await client.disconnect();
-
-  res.json({ result: _result });
 });
 
 router.delete('/cast', async (req, res, next) => {
